@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
 
 
 /**
@@ -16,26 +17,34 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: 'new-beer.html',
 })
 export class NewBeerPage {
-   public photo; 
-
+   private photo; 
+   private review = {}
    public options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      mediaType: this.camera.MediaType.PICTURE, 
+      allowEdit: true
    }
 
-  constructor(public navCtrl: NavController, 
+   constructor(public navCtrl: NavController, 
       public navParams: NavParams,  
       public camera: Camera, 
-      public sanitizer: DomSanitizer) {
-  }
+      public sanitizer: DomSanitizer,
+      public http: HttpClient) {}
    
   
   openPhoto(){
-      this.camera.getPicture(this.options).then(img =>{
-         this.photo = "data:image/jpeg;base64," + img;
-      })
+      this.camera.getPicture(this.options).then(img => this.photo = "data:image/jpeg;base64," + img )
+   }
+
+   retakePhoto(){
+      this.photo = null; 
+      this.camera.getPicture(this.options).then(img => this.photo = "data:image/jpeg;base64," + img )
+   }
+
+   submitReview(review){
+      console.log(review)
    }
 
   ionViewDidLoad() {
