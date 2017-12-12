@@ -13,42 +13,39 @@ import { HttpClient } from '@angular/common/http';
  */
 
 @Component({
-  selector: 'page-new-beer',
-  templateUrl: 'new-beer.html',
+   selector: 'page-new-beer',
+   templateUrl: 'new-beer.html',
 })
 export class NewBeerPage {
-   private photo; 
+   private photo;
    private review = {}
    public options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE, 
+      mediaType: this.camera.MediaType.PICTURE,
       allowEdit: true
    }
 
-   constructor(public navCtrl: NavController, 
-      public navParams: NavParams,  
-      public camera: Camera, 
+   constructor(public navCtrl: NavController,
+      public navParams: NavParams,
+      public camera: Camera,
       public sanitizer: DomSanitizer,
-      public http: HttpClient) {}
-   
-  
-  openPhoto(){
-      this.camera.getPicture(this.options).then(img => this.photo = "data:image/jpeg;base64," + img )
+      public http: HttpClient) { }
+
+
+   openPhoto() {
+      this.camera.getPicture(this.options).then(img => this.photo = "data:image/jpeg;base64," + img)
    }
 
-   retakePhoto(){
-      this.photo = null; 
-      this.camera.getPicture(this.options).then(img => this.photo = "data:image/jpeg;base64," + img )
+   retakePhoto() {
+      this.photo = null;
+      this.camera.getPicture(this.options).then(img => this.photo = "data:image/jpeg;base64," + img)
    }
+    
 
-   submitReview(review){
-      console.log(review)
+   ionViewDidLoad() {
+      console.log('ionViewDidLoad NewBeerPage');
    }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad NewBeerPage');
-  }
 
 }
