@@ -1,24 +1,35 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ReviewPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { HttpClient } from '@angular/common/http';
+import { ServerUrlProvider } from './../../providers/server-url/server-url';
+import { BeerDetailPage } from './../beer-detail/beer-detail';
 
 @Component({
-  selector: 'page-review',
-  templateUrl: 'review.html',
+   selector: 'page-review',
+   templateUrl: 'review.html',
 })
 export class ReviewPage {
+   public beers = [];
+   constructor(
+      public navCtrl: NavController,
+      public navParams: NavParams,
+      public http: HttpClient,
+      public server: ServerUrlProvider
+   ) { }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+   ionViewDidLoad() {
+      this.getBeers();
+   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ReviewPage');
-  }
+   getBeers() {
+      this.http.get(this.server.url() + '/beer')
+         .subscribe((succ:any) => {
+            this.beers = succ
+         });
+   }
+
+   viewBeer(beer){
+      this.navCtrl.push(BeerDetailPage, { beer: beer});
+   }
 
 }
