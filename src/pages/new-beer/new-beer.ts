@@ -1,26 +1,22 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
-
-
-/**
- * Generated class for the NewBeerPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { ServerUrlProvider } from '../../providers/server-url/server-url';
 
 @Component({
    selector: 'page-new-beer',
    templateUrl: 'new-beer.html',
 })
 export class NewBeerPage {
-   private photo;
-   private review = {}
+   private review = {
+      photo:  null
+   }
+   private photoTaken:boolean = false;
+
    public options: CameraOptions = {
-      quality: 100,
+      quality: 10,
+      targetHeight: 250, 
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
@@ -30,17 +26,24 @@ export class NewBeerPage {
    constructor(public navCtrl: NavController,
       public navParams: NavParams,
       public camera: Camera,
-      public sanitizer: DomSanitizer,
-      public http: HttpClient) { }
+      public http: HttpClient, 
+      public server: ServerUrlProvider) { }
 
 
    openPhoto() {
-      this.camera.getPicture(this.options).then(img => this.photo = "data:image/jpeg;base64," + img)
+      this.camera.getPicture(this.options).then(img => this.review.photo = "data:image/jpeg;base64," + img);
+      this.photoTaken = true;
+
    }
 
    retakePhoto() {
-      this.photo = null;
-      this.camera.getPicture(this.options).then(img => this.photo = "data:image/jpeg;base64," + img)
+      this.review.photo = null;
+      this.camera.getPicture(this.options).then(img => this.review.photo = "data:image/jpeg;base64," + img)
+   }
+
+   submitReview(review){
+      this.http.post(this.server.url() + '/beer', review)
+         .subscribe((succ:any) => console.log(succ))
    }
     
 
