@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { ServerUrlProvider } from './../../providers/server-url/server-url';
 import { BeerDetailPage } from './../beer-detail/beer-detail';
@@ -14,7 +15,8 @@ export class ReviewPage {
       public navCtrl: NavController,
       public navParams: NavParams,
       public http: HttpClient,
-      public server: ServerUrlProvider
+      public server: ServerUrlProvider,
+      public sanitizer: DomSanitizer
    ) { }
 
    ionViewDidLoad() {
@@ -24,7 +26,11 @@ export class ReviewPage {
    getBeers() {
       this.http.get(this.server.url() + '/beer')
          .subscribe((succ:any) => {
-            this.beers = succ
+            this.beers = succ.map(el => {
+               if(el.photo)
+                  el.photo = this.sanitizer.bypassSecurityTrustUrl(el.photo);
+               return el
+            });
          });
    }
 

@@ -5,24 +5,33 @@
   </ion-navbar>
 
 </ion-header>
-
-
-<ion-content padding>
-   <ion-list>
-      <ion-item *ngFor="let beer of beers">
-         <ion-thumbnail item-start>
-               <img *ngIf="beer.photo" src = 'beer.photo'>
-               <img *ngIf = '!beer.photo' src = './../../assets/imgs/beer.jpg'>
-         </ion-thumbnail>
-         <h2> {{beer.name}} </h2>
-         <p>{{beer.brewery}}</p>
-         <button 
-            ion-button 
-            clear
-            item-end
-            (tap) = 'viewBeer(beer)'>
-            View
-         </button>
-      </ion-item>
-   </ion-list>
+<ion-content padding class = 'backgroundImage'>
+   <ion-card *ngFor="let beer of beers"> 
+      <ion-card-content>
+            <ion-thumbnail item-start>
+                  <img *ngIf="beer.photo" [src] = 'beer.photo'>
+                  <img 
+                     *ngIf="!beer.photo"
+                     src="./../../assets/imgs/beer.jpg" />   
+            </ion-thumbnail>
+            <ion-grid>
+               <ion-row>
+                  <ion-col>
+                     <h2 class ='md-display-2'> {{beer.name}} By {{beer.brewery}} | {{beer.type}} </h2>
+                  </ion-col>
+                  <ion-col offset-5>
+                        <button 
+                           ion-button 
+                           clear
+                           item-end
+                           (tap) = 'viewBeer(beer)'>
+                        View
+                     </button>
+                  </ion-col>
+               </ion-row>
+            </ion-grid>
+            
+            
+      </ion-card-content>
+   </ion-card> 
 </ion-content>
