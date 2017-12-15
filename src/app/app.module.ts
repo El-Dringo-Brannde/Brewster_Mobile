@@ -8,7 +8,6 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { ReviewPage } from '../pages/review/review';
 import { NewBeerPage } from '../pages/new-beer/new-beer';
-import { LoginPage } from '../pages/login/login';
 import { BeerDetailPage } from '../pages/beer-detail/beer-detail';
 
 import { StatusBar } from '@ionic-native/status-bar';

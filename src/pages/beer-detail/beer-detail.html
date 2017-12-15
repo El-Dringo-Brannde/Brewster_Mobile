@@ -1,6 +1,14 @@
 <ion-header>
       <ion-navbar>
         <ion-title>{{beer.name}}</ion-title>
+        <button 
+            ion-button 
+            style = 'float: right;' 
+            (tap) = 'deleteBeer(beer)'
+            color = 'danger'> 
+            Delete
+         </button>
+        
       </ion-navbar>
     </ion-header>
     <ion-content padding class = 'backgroundImage'>      

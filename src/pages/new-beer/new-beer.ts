@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { HttpClient } from '@angular/common/http';
 import { ServerUrlProvider } from '../../providers/server-url/server-url';
+import { ToastController } from 'ionic-angular';
 
 @Component({
    selector: 'page-new-beer',
@@ -10,10 +11,17 @@ import { ServerUrlProvider } from '../../providers/server-url/server-url';
 })
 export class NewBeerPage {
    private review = {
-      photo:  null
+      photo: '', 
+      name: '', 
+      brewery: '',
+      type: '',
+      appearance: '',
+      aroma: '',
+      taste: '',
+      rating: ''
    }
    private photoTaken:boolean = false;
-
+   private submitting: boolean = false; 
    public options: CameraOptions = {
       quality: 10,
       targetHeight: 250, 
@@ -27,7 +35,8 @@ export class NewBeerPage {
       public navParams: NavParams,
       public camera: Camera,
       public http: HttpClient, 
-      public server: ServerUrlProvider) { }
+      public server: ServerUrlProvider,
+      public toastr: ToastController) { }
 
 
    openPhoto() {
@@ -42,8 +51,30 @@ export class NewBeerPage {
    }
 
    submitReview(review){
+      this.submitting = true; 
       this.http.post(this.server.url() + '/beer', review)
-         .subscribe((succ:any) => console.log(succ))
+         .subscribe((succ:any) => {
+            this.toastr.create({
+            message: "Submitted successfully!",
+            duration: 1000,
+            position: 'top'
+         }).present() 
+         this.resetReview();
+         this.submitting = false; 
+      })
+   }
+
+   resetReview(){
+      this.review = {
+         photo: '', 
+         name: '', 
+         brewery: '',
+         type: '',
+         appearance: '',
+         aroma: '',
+         taste: '',
+         rating: ''
+      };
    }
     
 

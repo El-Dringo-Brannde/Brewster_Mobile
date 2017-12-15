@@ -134,6 +134,7 @@
          <ion-col col-12>
             <button col-12
                ion-button 
+               [disabled] = 'submitting'
                (tap) = 'submitReview(review)'>Submit!
             </button>
          </ion-col>

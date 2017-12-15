@@ -30,6 +30,7 @@
     "cordova-plugin-camera": "^3.0.0",
     "cordova-plugin-device": "^1.1.4",
     "cordova-plugin-ionic-webview": "^1.1.16",
+    "cordova-plugin-ios-camera-permissions": "^1.2.0",
     "cordova-plugin-splashscreen": "^4.0.3",
     "cordova-plugin-statusbar": "^2.3.0",
     "cordova-plugin-whitelist": "^1.3.1",
@@ -48,13 +49,22 @@
   "description": "An Ionic project",
   "cordova": {
     "plugins": {
-      "cordova-plugin-camera": {},
+      "cordova-plugin-camera": {
+        "CAMERA_USAGE_DESCRIPTION": "your usage message",
+        "PHOTOLIBRARY_USAGE_DESCRIPTION": "your usage message"
+      },
       "ionic-plugin-keyboard": {},
       "cordova-plugin-whitelist": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-ios-camera-permissions": {
+        "CAMERA_USAGE_DESCRIPTION": "This app needs camera access",
+        "MICROPHONE_USAGE_DESCRIPTION": "This app needs microphone access",
+        "PHOTOLIBRARY_ADD_USAGE_DESCRIPTION": "This app needs write-access to photo library",
+        "PHOTOLIBRARY_USAGE_DESCRIPTION": "This app needs read/write-access photo library access"
+      }
     },
     "platforms": [
       "browser",

@@ -11,7 +11,7 @@ import { ServerUrlProvider } from '../../providers/server-url/server-url';
   templateUrl: 'beer-detail.html',
 })
 export class BeerDetailPage {
-   private beer = { }; 
+   private beer = { photo: '' }; 
    public options: CameraOptions = {
       quality: 10,
       targetHeight: 250, 
@@ -32,6 +32,8 @@ export class BeerDetailPage {
 
   ionViewDidLoad() {
     this.beer = this.navParams.get('beer');
+    if (!this.beer.photo)
+      this.beer.photo = 'https://i.imgur.com/Lz48tgp.jpg'
   }
 
   createToast(field, value){
@@ -45,6 +47,15 @@ export class BeerDetailPage {
             duration: 1000,
             position: 'top'
          }).present())
+  }
+
+  deleteBeer(beer){
+     console.log(beer)
+     this.http.delete(this.server.url()+ '/beer', beer)
+      .subscribe(() => {
+         this.navCtrl.pop();
+      })
+
   }
 
   retakePhoto() {
