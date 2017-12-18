@@ -17,6 +17,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Camera } from '@ionic-native/camera';
 import { IonicStorageModule } from '@ionic/storage';
 import { ServerUrlProvider } from '../providers/server-url/server-url';
+import { AgmCoreModule } from '@agm/core';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
    declarations: [
@@ -31,7 +33,11 @@ import { ServerUrlProvider } from '../providers/server-url/server-url';
       BrowserModule,
       HttpClientModule,
       IonicModule.forRoot(MyApp),
-      IonicStorageModule.forRoot()
+      IonicStorageModule.forRoot(),
+      AgmCoreModule.forRoot({
+         apiKey: 'AIzaSyBJEVphlYl0fGRo3o4l07GWDYDgcmt4uHA', 
+         libraries: ['places']
+       })
    ],
    bootstrap: [IonicApp],
    entryComponents: [
@@ -48,6 +54,7 @@ import { ServerUrlProvider } from '../providers/server-url/server-url';
       { provide: ErrorHandler, useClass: IonicErrorHandler },
       Camera,
       ServerUrlProvider,
+      Geolocation
 
    ]
 })
