@@ -3,7 +3,10 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { HttpClient } from '@angular/common/http';
 import { ServerUrlProvider } from '../../providers/server-url/server-url';
-import { ToastController } from 'ionic-angular';
+import { 
+   ToastController,
+   AlertController
+} from 'ionic-angular';
 
 @Component({
    selector: 'page-new-beer',
@@ -36,7 +39,8 @@ export class NewBeerPage {
       public camera: Camera,
       public http: HttpClient, 
       public server: ServerUrlProvider,
-      public toastr: ToastController) { }
+      public toastr: ToastController,
+      public alert: AlertController) { }
 
 
    openPhoto() {
@@ -51,6 +55,13 @@ export class NewBeerPage {
    }
 
    submitReview(review){
+      if(!this.review.photo){
+         this.alert.create({
+            title: "Submission Error", 
+            subTitle: "Please take a photo for submission",
+            buttons: ["OK"]
+         }).present();
+      } else{
       this.submitting = true; 
       this.http.post(this.server.url() + '/beer', review)
          .subscribe((succ:any) => {
@@ -62,6 +73,7 @@ export class NewBeerPage {
          this.resetReview();
          this.submitting = false; 
       })
+      }
    }
 
    resetReview(){
