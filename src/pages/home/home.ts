@@ -7,6 +7,7 @@ import { ReviewPage } from './../review/review';
 import { NewBeerPage } from './../new-beer/new-beer';
 import { Geolocation } from '@ionic-native/geolocation';
 
+
 declare var google;
 @Component({
   selector: 'page-home',
@@ -24,22 +25,17 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
-    private geolocation: Geolocation
-  ) { }
-
-  ngOnInit() {
-    //set google maps defaults
-    this.zoom = 12;
-    //set current position
+    private geolocation: Geolocation) { 
     this.setCurrentPosition();
+    this.zoom = 12;
+
   }
 
   private setCurrentPosition() {
-    this.geolocation.getCurrentPosition().then((resp) => {
+    this.geolocation.getCurrentPosition({enableHighAccuracy : true}).then((resp) => {
       this.userLatitude = resp.coords.latitude;
       this.userLongitude = resp.coords.longitude;
       var myLocation = new google.maps.LatLng(this.userLatitude, this.userLongitude);
-
       var map = new google.maps.Map(document.getElementById('map'), {
         center: myLocation
       });
@@ -61,7 +57,9 @@ export class HomePage {
           })
         } // ghetto hack since .map wasn't wanting to work
       });
-    }).catch(() => console.log("oh nose error"));
+    }).catch((err) => setTimeout(() => {
+      this.setCurrentPosition()
+    }, 500))
   }
 
   

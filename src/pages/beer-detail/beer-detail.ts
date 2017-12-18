@@ -50,8 +50,7 @@ export class BeerDetailPage {
   }
 
   deleteBeer(beer){
-     console.log(beer)
-     this.http.delete(this.server.url()+ '/beer', beer)
+     this.http.delete(this.server.url()+ '/beer?id=' + beer._id)
       .subscribe(() => {
          this.navCtrl.pop();
       })
