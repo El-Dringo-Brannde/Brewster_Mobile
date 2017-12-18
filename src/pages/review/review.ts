@@ -23,6 +23,15 @@ export class ReviewPage {
       this.getBeers();
    }
 
+   getItems(){
+      this.beers = this.hardSave; 
+      if (this.searchInput && this.searchInput.trim() != '') {
+         this.beers = this.beers.filter((item) => {
+            return (item.name.toLowerCase().indexOf(this.searchInput.toLowerCase()) > -1);
+         })
+      }
+   }
+
    getBeers() {
       this.http.get(this.server.url() + '/beer')
          .subscribe((succ:any) => {
@@ -31,6 +40,7 @@ export class ReviewPage {
                   el.photo = this.sanitizer.bypassSecurityTrustUrl(el.photo);
                return el
             });
+            this.hardSave = this.beers;
          });
    }
 

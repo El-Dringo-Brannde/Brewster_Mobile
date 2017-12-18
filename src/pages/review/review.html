@@ -6,6 +6,10 @@
 
 </ion-header>
 <ion-content padding class = 'backgroundImage'>
+    <ion-searchbar 
+      (ionInput)="getItems()"
+      [(ngModel)] = 'searchInput'>
+    </ion-searchbar>
    <ion-card *ngFor="let beer of beers"> 
       <ion-card-content>
             <ion-thumbnail item-start>
@@ -16,10 +20,10 @@
             </ion-thumbnail>
             <ion-grid>
                <ion-row>
-                  <ion-col>
+                  <ion-col col-9>
                      <h2 class ='md-display-2'> {{beer.name}} By {{beer.brewery}} | {{beer.type}} </h2>
                   </ion-col>
-                  <ion-col offset-5>
+                  <ion-col col-3>
                         <button 
                            ion-button 
                            clear
