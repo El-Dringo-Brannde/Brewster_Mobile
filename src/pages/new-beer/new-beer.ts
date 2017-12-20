@@ -1,9 +1,21 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { Camera, CameraOptions } from '@ionic-native/camera';
-import { HttpClient } from '@angular/common/http';
-import { ServerUrlProvider } from '../../providers/server-url/server-url';
-import { 
+import {
+   Component
+} from '@angular/core';
+import {
+   NavController,
+   NavParams
+} from 'ionic-angular';
+import {
+   Camera,
+   CameraOptions
+} from '@ionic-native/camera';
+import {
+   HttpClient
+} from '@angular/common/http';
+import {
+   ServerUrlProvider
+} from '../../providers/server-url/server-url';
+import {
    ToastController,
    AlertController
 } from 'ionic-angular';
@@ -14,8 +26,8 @@ import {
 })
 export class NewBeerPage {
    private review = {
-      photo: '', 
-      name: '', 
+      photo: '',
+      name: '',
       brewery: '',
       type: '',
       appearance: '',
@@ -23,11 +35,11 @@ export class NewBeerPage {
       taste: '',
       rating: ''
    }
-   private photoTaken:boolean = false;
-   private submitting: boolean = false; 
+   private photoTaken: boolean = false;
+   private submitting: boolean = false;
    public options: CameraOptions = {
       quality: 10,
-      targetHeight: 250, 
+      targetHeight: 250,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
@@ -37,10 +49,10 @@ export class NewBeerPage {
    constructor(public navCtrl: NavController,
       public navParams: NavParams,
       public camera: Camera,
-      public http: HttpClient, 
+      public http: HttpClient,
       public server: ServerUrlProvider,
       public toastr: ToastController,
-      public alert: AlertController) { }
+      public alert: AlertController) {}
 
 
    openPhoto() {
@@ -54,32 +66,32 @@ export class NewBeerPage {
       this.camera.getPicture(this.options).then(img => this.review.photo = "data:image/jpeg;base64," + img)
    }
 
-   submitReview(review){
-      if(!this.review.photo){
+   submitReview(review) {
+      if (!this.review.photo) {
          this.alert.create({
-            title: "Submission Error", 
+            title: "Submission Error",
             subTitle: "Please take a photo for submission",
             buttons: ["OK"]
          }).present();
-      } else{
-      this.submitting = true; 
-      this.http.post(this.server.url() + '/beer', review)
-         .subscribe((succ:any) => {
-            this.toastr.create({
-            message: "Submitted successfully!",
-            duration: 1000,
-            position: 'top'
-         }).present() 
-         this.resetReview();
-         this.submitting = false; 
-      })
+      } else {
+         this.submitting = true;
+         this.http.post(this.server.url() + '/beer', review)
+            .subscribe((succ: any) => {
+               this.toastr.create({
+                  message: "Submitted successfully!",
+                  duration: 1000,
+                  position: 'top'
+               }).present()
+               this.resetReview();
+               this.submitting = false;
+            })
       }
    }
 
-   resetReview(){
+   resetReview() {
       this.review = {
-         photo: '', 
-         name: '', 
+         photo: '',
+         name: '',
          brewery: '',
          type: '',
          appearance: '',
@@ -88,7 +100,7 @@ export class NewBeerPage {
          rating: ''
       };
    }
-    
+
 
    ionViewDidLoad() {
       console.log('ionViewDidLoad NewBeerPage');

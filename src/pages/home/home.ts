@@ -40,23 +40,13 @@ export class HomePage {
     }
 
   private checkLogin(){
-    this.storage.set('age', '');
-    this.storage.get('age').then(val => {
-      console.log(val)
+    this.storage.get('user').then(val => {
       if(!val){
-        console.log('alsdkjf')
         this.modal.create(LoginPage,{}, {
           showBackdrop: false, 
           enableBackdropDismiss: false
         }).present();
       }
-
-        
-      else   
-        this.alert.create({
-          title: val
-        }).present()
-
     });
   }
 
