@@ -1,6 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { 
+    IonicApp, 
+    IonicErrorHandler, 
+    IonicModule
+} from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MyApp } from './app.component';
@@ -9,6 +13,7 @@ import { ListPage } from '../pages/list/list';
 import { ReviewPage } from '../pages/review/review';
 import { NewBeerPage } from '../pages/new-beer/new-beer';
 import { BeerDetailPage } from '../pages/beer-detail/beer-detail';
+import { LoginPage } from '../pages/login/login';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -27,13 +32,14 @@ import { Geolocation } from '@ionic-native/geolocation';
       ListPage,
       ReviewPage,
       NewBeerPage,
-      BeerDetailPage
+      BeerDetailPage, 
+      LoginPage
    ],
    imports: [
       BrowserModule,
       HttpClientModule,
-      IonicModule.forRoot(MyApp),
       IonicStorageModule.forRoot(),
+      IonicModule.forRoot(MyApp),
       AgmCoreModule.forRoot({
          apiKey: 'AIzaSyBJEVphlYl0fGRo3o4l07GWDYDgcmt4uHA', 
          libraries: ['places']
@@ -46,7 +52,8 @@ import { Geolocation } from '@ionic-native/geolocation';
       ListPage,
       ReviewPage,
       NewBeerPage,
-      BeerDetailPage
+      BeerDetailPage,
+      LoginPage
    ],
    providers: [
       StatusBar,
@@ -55,7 +62,6 @@ import { Geolocation } from '@ionic-native/geolocation';
       Camera,
       ServerUrlProvider,
       Geolocation
-
    ]
 })
 export class AppModule { }

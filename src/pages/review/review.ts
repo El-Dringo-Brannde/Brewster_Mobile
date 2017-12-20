@@ -11,6 +11,8 @@ import { BeerDetailPage } from './../beer-detail/beer-detail';
 })
 export class ReviewPage {
    public beers = [];
+   public hardSave = [];
+   public searchInput = '';
    constructor(
       public navCtrl: NavController,
       public navParams: NavParams,

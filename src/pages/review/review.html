@@ -5,6 +5,8 @@
   </ion-navbar>
 
 </ion-header>
+
+
 <ion-content padding class = 'backgroundImage'>
     <ion-searchbar 
       (ionInput)="getItems()"
@@ -13,10 +15,10 @@
    <ion-card *ngFor="let beer of beers"> 
       <ion-card-content>
             <ion-thumbnail item-start>
-                  <img *ngIf="beer.photo" [src] = 'beer.photo'>
-                  <img 
-                     *ngIf="!beer.photo"
-                     src="./../../assets/imgs/beer.jpg" />   
+              <img *ngIf="beer.photo" [src] = 'beer.photo'>
+              <img 
+                  *ngIf="!beer.photo"
+                  src="./../../assets/imgs/beer.jpg" />   
             </ion-thumbnail>
             <ion-grid>
                <ion-row>
@@ -34,8 +36,6 @@
                   </ion-col>
                </ion-row>
             </ion-grid>
-            
-            
       </ion-card-content>
    </ion-card> 
 </ion-content>

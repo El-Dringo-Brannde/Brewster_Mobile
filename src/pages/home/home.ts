@@ -2,10 +2,16 @@ import {
   Component,
   ElementRef,
 } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {
+  NavController,
+  ModalController
+} from 'ionic-angular';
 import { ReviewPage } from './../review/review';
 import { NewBeerPage } from './../new-beer/new-beer';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Storage } from '@ionic/storage';
+import { AlertController } from 'ionic-angular/components/alert/alert-controller';
+import { LoginPage } from './../login/login';
 
 
 declare var google;
@@ -16,7 +22,6 @@ declare var google;
 
 
 export class HomePage {
-
   public searchElementRef: ElementRef;
   public userLatitude: number;
   public userLongitude: number;
@@ -25,10 +30,34 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
-    private geolocation: Geolocation) { 
-    this.setCurrentPosition();
-    this.zoom = 12;
+    private geolocation: Geolocation, 
+    private alert: AlertController,
+    private storage: Storage, 
+    private modal: ModalController) { 
+      this.checkLogin(); 
+      this.setCurrentPosition();
+      this.zoom = 12;
+    }
 
+  private checkLogin(){
+    this.storage.set('age', '');
+    this.storage.get('age').then(val => {
+      console.log(val)
+      if(!val){
+        console.log('alsdkjf')
+        this.modal.create(LoginPage,{}, {
+          showBackdrop: false, 
+          enableBackdropDismiss: false
+        }).present();
+      }
+
+        
+      else   
+        this.alert.create({
+          title: val
+        }).present()
+
+    });
   }
 
   private setCurrentPosition() {
