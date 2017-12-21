@@ -10,8 +10,10 @@ import { ReviewPage } from './../review/review';
 import { NewBeerPage } from './../new-beer/new-beer';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Storage } from '@ionic/storage';
-import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 import { LoginPage } from './../login/login';
+import { HttpClient } from '@angular/common/http';
+import { ServerUrlProvider } from './../../providers/server-url/server-url';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 declare var google;
@@ -27,17 +29,26 @@ export class HomePage {
   public userLongitude: number;
   public zoom: number;
   public nearbyLocations: Array<any> = []; 
+  public loggedInUser: string; 
+  public beers: Array<any> = [];
+  public favorites: Array<any> = [];
 
   constructor(
     public navCtrl: NavController,
     private geolocation: Geolocation, 
-    private alert: AlertController,
     private storage: Storage, 
+    private http: HttpClient,
+    private server: ServerUrlProvider,
+    private sanitizer: DomSanitizer,
     private modal: ModalController) { 
       this.checkLogin(); 
       this.setCurrentPosition();
       this.zoom = 12;
     }
+
+  ionViewDidLoad(){
+    this.checkLogin();
+  }
 
   private checkLogin(){
     this.storage.get('user').then(val => {
@@ -46,7 +57,10 @@ export class HomePage {
           showBackdrop: false, 
           enableBackdropDismiss: false
         }).present();
-      }
+      } else{ 
+        this.loggedInUser = val;
+        this.getBeers(val);
+      } 
     });
   }
 
@@ -81,9 +95,25 @@ export class HomePage {
     }, 500))
   }
 
+  getBeers(user) {
+    this.http.get(this.server.url() + '/beer/' + user)
+       .subscribe((succ: any) => {
+          this.beers = succ.map(el => {
+             if (el.photo)
+                el.photo = this.sanitizer.bypassSecurityTrustUrl(el.photo);
+             return el
+          });
+          this.favorites = this.beers.sort((a, b) => {
+            return b.rating - a.rating
+          })
+       });
+ }
+
   
   goToReviews() {
-    this.navCtrl.push(ReviewPage);
+    this.navCtrl.push(ReviewPage, {
+      user: this.loggedInUser
+    });
   }
 
   goToNew() {

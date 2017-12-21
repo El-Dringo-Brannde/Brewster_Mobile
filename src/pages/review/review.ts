@@ -24,6 +24,7 @@ export class ReviewPage {
    public beers = [];
    public hardSave = [];
    public searchInput = '';
+   private loggedInUser: string = '';
    
    constructor(
       public navCtrl: NavController,
@@ -34,6 +35,7 @@ export class ReviewPage {
    ) {}
 
    ionViewDidLoad() {
+      this.loggedInUser = this.navParams.get('user')
       this.getBeers();
    }
 
@@ -47,7 +49,11 @@ export class ReviewPage {
    }
 
    getBeers() {
-      this.http.get(this.server.url() + '/beer')
+      let queryParam  = '';
+      if( this.loggedInUser)
+            queryParam = '/' + this.loggedInUser; 
+            
+      this.http.get(this.server.url() + '/beer' + queryParam)
          .subscribe((succ: any) => {
             this.beers = succ.map(el => {
                if (el.photo)

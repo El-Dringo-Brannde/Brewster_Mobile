@@ -19,6 +19,8 @@ import {
    ToastController,
    AlertController
 } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
    selector: 'page-new-beer',
@@ -26,14 +28,15 @@ import {
 })
 export class NewBeerPage {
    private review = {
-      photo: '',
+      photo: null,
       name: '',
       brewery: '',
       type: '',
       appearance: '',
       aroma: '',
       taste: '',
-      rating: ''
+      rating: '', 
+      user: ''
    }
    private photoTaken: boolean = false;
    private submitting: boolean = false;
@@ -52,13 +55,19 @@ export class NewBeerPage {
       public http: HttpClient,
       public server: ServerUrlProvider,
       public toastr: ToastController,
-      public alert: AlertController) {}
+      public storage: Storage,
+      public sanitizer: DomSanitizer,
+      public alert: AlertController) {
+         this.storage.get('user')
+            .then(val => this.review.user = val)
+      }
 
 
    openPhoto() {
-      this.camera.getPicture(this.options).then(img => this.review.photo = "data:image/jpeg;base64," + img);
+      this.camera.getPicture(this.options).then(img => {
+            this.review.photo = this.sanitizer.bypassSecurityTrustUrl("data:image/jpeg;base64," + img)
+      });
       this.photoTaken = true;
-
    }
 
    retakePhoto() {
@@ -84,6 +93,7 @@ export class NewBeerPage {
                }).present()
                this.resetReview();
                this.submitting = false;
+               this.photoTaken = false; 
             })
       }
    }
@@ -97,7 +107,8 @@ export class NewBeerPage {
          appearance: '',
          aroma: '',
          taste: '',
-         rating: ''
+         rating: '', 
+         user: ''
       };
    }
 
