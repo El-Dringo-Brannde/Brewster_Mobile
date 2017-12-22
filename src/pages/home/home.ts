@@ -42,7 +42,7 @@ export class HomePage {
   }
 
   sortBeers(){
-    this.beersObj.beers = this.beersObj.beers.reverse();
+    this.beersObj.beers = this.beersObj.beers.map(x => Object.assign({}, x)).reverse();
     this.beersObj.hardSave = this.beersObj.hardSave.sort(function(a,b) { 
       return b.rating - a.rating;
     });
