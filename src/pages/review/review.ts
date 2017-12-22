@@ -4,18 +4,26 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { ServerUrlProvider } from './../../providers/server-url/server-url';
 import { BeerDetailPage } from './../beer-detail/beer-detail';
+import { BeersProvider } from './../../providers/beers/beers';
 
 @Component({
    selector: 'page-review',
    templateUrl: 'review.html',
 })
 export class ReviewPage {
-   public beers = [];
+   public hardSave = []; 
+   public searchInput = '';
+   public beersObj = {
+         hardSave: <any>[],
+         beers:<any> []
+   };
+
    constructor(
       public navCtrl: NavController,
       public navParams: NavParams,
       public http: HttpClient,
       public server: ServerUrlProvider,
+      public beers: BeersProvider,
       public sanitizer: DomSanitizer
    ) { }
 
@@ -24,24 +32,16 @@ export class ReviewPage {
    }
 
    getItems(){
-      this.beers = this.hardSave; 
+      this.beersObj.beers = this.beersObj.hardSave; 
       if (this.searchInput && this.searchInput.trim() != '') {
-         this.beers = this.beers.filter((item) => {
+         this.beersObj.beers = this.beersObj.beers.filter((item) => {
             return (item.name.toLowerCase().indexOf(this.searchInput.toLowerCase()) > -1);
-         })
+         });
       }
    }
 
-   getBeers() {
-      this.http.get(this.server.url() + '/beer')
-         .subscribe((succ:any) => {
-            this.beers = succ.map(el => {
-               if(el.photo)
-                  el.photo = this.sanitizer.bypassSecurityTrustUrl(el.photo);
-               return el
-            });
-            this.hardSave = this.beers;
-         });
+   async getBeers() {
+      this.beersObj = await this.beers.getBeers()
    }
 
    viewBeer(beer){

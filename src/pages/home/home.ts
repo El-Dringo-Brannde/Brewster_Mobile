@@ -6,6 +6,7 @@ import { NavController } from 'ionic-angular';
 import { ReviewPage } from './../review/review';
 import { NewBeerPage } from './../new-beer/new-beer';
 import { Geolocation } from '@ionic-native/geolocation';
+import { BeersProvider } from './../../providers/beers/beers';
 
 
 declare var google;
@@ -22,13 +23,29 @@ export class HomePage {
   public userLongitude: number;
   public zoom: number;
   public nearbyLocations: Array<any> = []; 
+  public beersObj = {
+    beers:[], 
+    hardSave: []
+  }
 
   constructor(
     public navCtrl: NavController,
+    public beers: BeersProvider,
     private geolocation: Geolocation) { 
     this.setCurrentPosition();
     this.zoom = 12;
+  }
 
+  async ionViewDidLoad(){
+    this.beersObj = await this.beers.getBeers();
+    this.sortBeers();
+  }
+
+  sortBeers(){
+    this.beersObj.beers = this.beersObj.beers.reverse();
+    this.beersObj.hardSave = this.beersObj.hardSave.sort(function(a,b) { 
+      return b.rating - a.rating;
+    });
   }
 
   private setCurrentPosition() {

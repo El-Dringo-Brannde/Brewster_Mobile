@@ -19,6 +19,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { ServerUrlProvider } from '../providers/server-url/server-url';
 import { AgmCoreModule } from '@agm/core';
 import { Geolocation } from '@ionic-native/geolocation';
+import { BeersProvider } from '../providers/beers/beers';
 
 @NgModule({
    declarations: [
@@ -54,7 +55,8 @@ import { Geolocation } from '@ionic-native/geolocation';
       { provide: ErrorHandler, useClass: IonicErrorHandler },
       Camera,
       ServerUrlProvider,
-      Geolocation
+      Geolocation,
+      BeersProvider
 
    ]
 })

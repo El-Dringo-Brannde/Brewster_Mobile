@@ -8,15 +8,47 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="cards-bg backgroundImage">
-   <ion-card> 
-      <ion-card-content (tap) = 'goToNew()'>
-         Review a Beer
+  <ion-fab bottom right>
+    <button ion-fab (tap) = 'goToNew()'>
+      <ion-icon 
+        ios="ios-add" 
+        md="md-add"></ion-icon>
+    </button>
+  </ion-fab>
+  
+  
+  
+  <ion-card *ngFor="let beer of beersObj.beers"> 
+      <ion-card-content>
+            <ion-thumbnail item-start>
+                  <img *ngIf="beer.photo" [src] = 'beer.photo'>
+                  <img 
+                     *ngIf="!beer.photo"
+                     src="./../../assets/imgs/beer.jpg" />   
+            </ion-thumbnail>
+            <ion-grid>
+               <ion-row>
+                  <ion-col col-9>
+                     <h2 class ='md-display-2'> {{beer.name}} By {{beer.brewery}} | {{beer.type}} </h2>
+                  </ion-col>
+                  <ion-col col-3>
+                        <button 
+                           ion-button 
+                           clear
+                           item-end
+                           (tap) = 'viewBeer(beer)'>
+                        View
+                     </button>
+                  </ion-col>
+               </ion-row>
+            </ion-grid>
+            
+            
       </ion-card-content>
-   </ion-card>
+   </ion-card> 
 
   <ion-card>
     <ion-card-content (tap) = 'goToReviews()'>
-      
       Your Previously Reviewed Beers
     </ion-card-content>
   </ion-card>
