@@ -9,9 +9,7 @@ import {
 import { ReviewPage } from './../review/review';
 import { NewBeerPage } from './../new-beer/new-beer';
 import { Geolocation } from '@ionic-native/geolocation';
-import { Storage } from '@ionic/storage';
-import { AlertController } from 'ionic-angular/components/alert/alert-controller';
-import { LoginPage } from './../login/login';
+import { BeersProvider } from './../../providers/beers/beers';
 
 
 declare var google;
@@ -27,36 +25,28 @@ export class HomePage {
   public userLongitude: number;
   public zoom: number;
   public nearbyLocations: Array<any> = []; 
+  public beersObj = {
+    beers:[], 
+    hardSave: []
+  }
 
   constructor(
     public navCtrl: NavController,
-    private geolocation: Geolocation, 
-    private alert: AlertController,
-    private storage: Storage, 
-    private modal: ModalController) { 
-      this.checkLogin(); 
-      this.setCurrentPosition();
-      this.zoom = 12;
-    }
+    public beers: BeersProvider,
+    private geolocation: Geolocation) { 
+    this.setCurrentPosition();
+    this.zoom = 12;
+  }
 
-  private checkLogin(){
-    this.storage.set('age', '');
-    this.storage.get('age').then(val => {
-      console.log(val)
-      if(!val){
-        console.log('alsdkjf')
-        this.modal.create(LoginPage,{}, {
-          showBackdrop: false, 
-          enableBackdropDismiss: false
-        }).present();
-      }
+  async ionViewDidLoad(){
+    this.beersObj = await this.beers.getBeers();
+    this.sortBeers();
+  }
 
-        
-      else   
-        this.alert.create({
-          title: val
-        }).present()
-
+  sortBeers(){
+    this.beersObj.beers = this.beersObj.beers.map(x => Object.assign({}, x)).reverse();
+    this.beersObj.hardSave = this.beersObj.hardSave.sort(function(a,b) { 
+      return b.rating - a.rating;
     });
   }
 

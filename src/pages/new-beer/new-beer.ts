@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { HttpClient } from '@angular/common/http';
 import { ServerUrlProvider } from '../../providers/server-url/server-url';
+import { DomSanitizer } from '@angular/platform-browser';
 import { 
    ToastController,
    AlertController
@@ -14,7 +15,7 @@ import {
 })
 export class NewBeerPage {
    private review = {
-      photo: '', 
+      photo: <any>'', 
       name: '', 
       brewery: '',
       type: '',
@@ -27,10 +28,9 @@ export class NewBeerPage {
    private submitting: boolean = false; 
    public options: CameraOptions = {
       quality: 10,
-      targetHeight: 250, 
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
+      targetHeight: 500, 
+      destinationType: 0,
+      encodingType: 1,
       allowEdit: true
    }
 
@@ -40,18 +40,24 @@ export class NewBeerPage {
       public http: HttpClient, 
       public server: ServerUrlProvider,
       public toastr: ToastController,
+      public sanitizer: DomSanitizer,
       public alert: AlertController) { }
 
 
    openPhoto() {
-      this.camera.getPicture(this.options).then(img => this.review.photo = "data:image/jpeg;base64," + img);
+      this.camera.getPicture(this.options).then(img => {
+         this.review.photo = "data:image/png;base64," + img
+         this.review.photo = this.sanitizer.bypassSecurityTrustUrl(this.review.photo);
+      });
       this.photoTaken = true;
-
    }
 
    retakePhoto() {
       this.review.photo = null;
-      this.camera.getPicture(this.options).then(img => this.review.photo = "data:image/jpeg;base64," + img)
+      this.camera.getPicture(this.options).then(img => {
+         this.review.photo = "data:image/jpeg;base64," + img
+         
+      })
    }
 
    submitReview(review){
@@ -72,6 +78,7 @@ export class NewBeerPage {
          }).present() 
          this.resetReview();
          this.submitting = false; 
+         this.photoTaken = false;
       })
       }
    }

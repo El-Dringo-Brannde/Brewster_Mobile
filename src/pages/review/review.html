@@ -12,7 +12,7 @@
       (ionInput)="getItems()"
       [(ngModel)] = 'searchInput'>
     </ion-searchbar>
-   <ion-card *ngFor="let beer of beers"> 
+   <ion-card *ngFor="let beer of beersObj.beers"> 
       <ion-card-content>
             <ion-thumbnail item-start>
               <img *ngIf="beer.photo" [src] = 'beer.photo'>
