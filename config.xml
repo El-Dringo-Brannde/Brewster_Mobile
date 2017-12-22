@@ -81,6 +81,8 @@
     <allow-navigation href="http://localhost:8100" />
     <allow-navigation href="http://192.168.1.6:8100" />
     <allow-navigation href="http://192.168.1.6:8101" />
+    <allow-navigation href="http://192.168.1.4:8100" />
+    <allow-navigation href="http://172.30.129.41:8100" />
     <engine name="browser" spec="5.0.1" />
     <engine name="ios" spec="4.5.4" />
     <plugin name="cordova-plugin-camera" spec="^3.0.0">
@@ -102,4 +104,5 @@
     <plugin name="cordova-plugin-geolocation" spec="^3.0.0">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
     </plugin>
+    <plugin name="cordova-plugin-nativestorage" spec="^2.2.2" />
 </widget>
