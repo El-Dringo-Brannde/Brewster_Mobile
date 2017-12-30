@@ -5,7 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable()
 export class BeersProvider {
-  public beers = []; 
+  public beers = [];
   public hardSave = [];
 
   constructor(public http: HttpClient,
@@ -18,6 +18,7 @@ export class BeersProvider {
     return new Promise((res,rej) =>{
       this.http.get(this.server.url() + '/beer')
        .subscribe((succ:any) => {
+         console.log(succ)
           this.beers = succ.map(el => {
              if(el.photo)
                 el.photo = this.sanitizer.bypassSecurityTrustUrl(el.photo);
@@ -25,7 +26,7 @@ export class BeersProvider {
           });
           this.hardSave = this.beers;
           res({
-            hardSave: this.hardSave, 
+            hardSave: this.hardSave,
             beers: this.beers
           })
        });
