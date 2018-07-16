@@ -1,6 +1,6 @@
 {
   "name": "Brewster",
-  "app_id": "",
+  "app_id": "5fb6e332",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
