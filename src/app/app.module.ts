@@ -13,7 +13,6 @@ import { ListPage } from '../pages/list/list';
 import { ReviewPage } from '../pages/review/review';
 import { NewBeerPage } from '../pages/new-beer/new-beer';
 import { BeerDetailPage } from '../pages/beer-detail/beer-detail';
-import { LoginPage } from '../pages/login/login';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -33,8 +32,7 @@ import { BeersProvider } from '../providers/beers/beers';
       ListPage,
       ReviewPage,
       NewBeerPage,
-      BeerDetailPage, 
-      LoginPage
+      BeerDetailPage
    ],
    imports: [
       BrowserModule,
@@ -53,8 +51,7 @@ import { BeersProvider } from '../providers/beers/beers';
       ListPage,
       ReviewPage,
       NewBeerPage,
-      BeerDetailPage,
-      LoginPage
+      BeerDetailPage
    ],
    providers: [
       StatusBar,

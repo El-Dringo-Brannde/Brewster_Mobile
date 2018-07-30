@@ -2,14 +2,16 @@
   "name": "Brewster",
   "version": "0.0.1",
   "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "homepage": "https://el-dringo-brannde.github.io/Brewster_Mobile",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:serve": "ionic-app-scripts serve",
+    "predeploy": "ionic cordova build browser --prod --release",
+    "deploy": "gh-pages -b master -d platforms/browser/www"
   },
   "dependencies": {
     "@agm/core": "^1.0.0-beta.2",
@@ -39,6 +41,7 @@
     "cordova-plugin-splashscreen": "^4.0.3",
     "cordova-plugin-statusbar": "^2.3.0",
     "cordova-plugin-whitelist": "^1.3.1",
+    "gh-pages": "^1.2.0",
     "ionic-angular": "3.9.2",
     "ionic-plugin-keyboard": "^2.2.1",
     "ionicons": "3.0.0",

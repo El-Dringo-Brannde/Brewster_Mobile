@@ -61,6 +61,7 @@ export class NewBeerPage {
    }
 
    submitReview(review){
+      console.log(this.review)
       if(!this.review.photo){
          this.alert.create({
             title: "Submission Error", 
